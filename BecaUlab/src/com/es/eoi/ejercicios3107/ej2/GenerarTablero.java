@@ -2,33 +2,36 @@ package com.es.eoi.ejercicios3107.ej2;
 
 public class GenerarTablero {
 
-	private static String[][] tablero;
+	private static char[][] tablero;
 
-	public static String[][] generarTablero(int a, int b) {
+	public static char[][] generarTablero(int a, int b) {
 
-		tablero = new String[a][b];
+		tablero = new char[a][b];
 
-		rellenaTablero(tablero, "c", a, b);
+		rellenaTablero(tablero, 'c');
 
 		return tablero;
 	}
 
-	public static void rellenaTablero(String[][] tab, String contents, int a, int b) {
+	public static void rellenaTablero(char[][] tab, char content) {
 
-		if (contents.contains("c")) {
+		int col = tab.length;
+		int row = tab[0].length;
+
+		if (content == 'c') {
 			boolean chess = true;
 
-			for (int i = 0; i < a; i++) {
-				for (int j = 0; j < b; j++) {
+			for (int i = 0; i < col; i++) {
+				for (int j = 0; j < row; j++) {
 
 					if (chess == true) {
-						
-						tab[i][j] = "X";
+
+						tab[i][j] = 'X';
 						chess = false;
-						
+
 					} else {
-						
-						tab[i][j] = "O";
+
+						tab[i][j] = 'O';
 						chess = true;
 
 					}
@@ -36,14 +39,16 @@ public class GenerarTablero {
 				}
 			}
 
-		}
+		} else {
 
-		for (int i = 0; i < a; i++) {
-			for (int j = 0; j < b; j++) {
+			for (int i = 0; i < row; i++) {
+				for (int j = 0; j < col; j++) {
 
-				tab[i][j] = contents;
+					tab[i][j] = content;
 
+				}
 			}
+
 		}
 
 	}

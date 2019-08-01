@@ -5,7 +5,7 @@ public class Meses {
 	public static void main(String[] args) {
 
 		String[] meses = new String[12];
-		String[][] tab;
+		char[][] tab;
 		int a = 5;
 		int b = 5;
 		

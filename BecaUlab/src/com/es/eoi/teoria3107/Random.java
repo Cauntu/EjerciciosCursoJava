@@ -1,4 +1,4 @@
-package com.es.eoi.beca;
+package com.es.eoi.teoria3107;
 
 public class Random 
 {

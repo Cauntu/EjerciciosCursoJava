@@ -56,7 +56,6 @@ public class EjJSON {
 //		json = br.readLine();
 //		
 //		alumnos = Arrays.asList(gson.fromJson(json, Alumno[].class) );
-//		//gson.fromJson(br, Alumno[].class);
 //		for (Alumno al : alumnos) {
 //			System.out.println(al.toString());
 //		}
@@ -79,8 +78,6 @@ public class EjJSON {
 		json = null;
 		alumnos.clear();
 
-		//json = br.readLine();
-		
 		alumnos = Arrays.asList(gson.fromJson(br, Alumno[].class) );
 		//gson.fromJson(br, Alumno[].class);
 		for (Alumno al : alumnos) {

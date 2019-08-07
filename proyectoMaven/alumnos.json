@@ -1,0 +1,59 @@
+[
+  {
+    "nombre": "Pepe",
+    "apellido": "Garcia",
+    "edad": 14,
+    "notas": [
+      {
+        "nota": 2.0,
+        "asignatura": "FISICA"
+      },
+      {
+        "nota": 8.0,
+        "asignatura": "QUIMICA"
+      },
+      {
+        "nota": 5.0,
+        "asignatura": "MATEMATICAS"
+      }
+    ]
+  },
+  {
+    "nombre": "Fran",
+    "apellido": "Perez",
+    "edad": 17,
+    "notas": [
+      {
+        "nota": 2.0,
+        "asignatura": "FISICA"
+      },
+      {
+        "nota": 8.0,
+        "asignatura": "QUIMICA"
+      },
+      {
+        "nota": 5.0,
+        "asignatura": "MATEMATICAS"
+      }
+    ]
+  },
+  {
+    "nombre": "Paula",
+    "apellido": "Fernandez",
+    "edad": 15,
+    "notas": [
+      {
+        "nota": 2.0,
+        "asignatura": "FISICA"
+      },
+      {
+        "nota": 8.0,
+        "asignatura": "QUIMICA"
+      },
+      {
+        "nota": 5.0,
+        "asignatura": "MATEMATICAS"
+      }
+    ]
+  }
+]

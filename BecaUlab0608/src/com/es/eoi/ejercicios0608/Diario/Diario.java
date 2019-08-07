@@ -22,7 +22,6 @@ public class Diario {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		option = Integer.parseInt(br.readLine());
-		//br.close();
 
 		switch (option) {
 
@@ -30,7 +29,6 @@ public class Diario {
 
 			System.out.println("Escriba tantas lineas como quiera o escriba FIN para salir.");
 			BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
-			//BufferedWriter bw = new BufferedWriter(new FileWriter("diario.txt", false));
 			FileWriter fw = new FileWriter("diario.txt", true);
 			try {
 
@@ -46,9 +44,6 @@ public class Diario {
 			} finally {
 				fw.close();
 			}
-
-//			bw.close();
-//			br1.close();
 
 			menu();
 			break;

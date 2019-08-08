@@ -59,46 +59,57 @@ public class Juego {
 		// nos preparamos para dibujar al ahorcado y recibir letras
 		userInput = new BufferedReader(new InputStreamReader(System.in));
 		userInput.read();
-		
+
 		for (int i = 0; i <= lives;) {
 
-			if (i < lives) {
+			if (!checkVictory()) {
 
-				drawHangMan(i);
-				writeWordState();
-				writeUsed();
-				Character charIn;
+				if (i < lives) {
 
-				do {
+					drawHangMan(i);
+					writeWordState();
+					writeUsed();
+					Character charIn;
+
+					do {
+						System.out.println();
+						System.out.print("Introduzca una letra: ");
+						charIn = Character.toUpperCase(askUserInput());
+					} while (!validateUserInput(charIn));
+
+					if (!checkMatch(charIn)) {
+
+						i++;
+
+					}
+
+				} else {
+					
+					drawHangMan(i);
+					writeWordState();
+					writeUsed();
+					
 					System.out.println();
-					System.out.print("Introduzca una letra: ");
-					charIn = Character.toUpperCase(askUserInput());
-				} while (!validateUserInput(charIn));
-
-				if (!checkMatch(charIn)) {
-
-					i++;
-
+					System.out.println("Pulse Intro para intentarlo de nuevo.");
+					System.in.read(); 
+					game();
 				}
 
-			} else {
-				System.out.println("Pulse Intro para intentarlo de nuevo.");
-				System.in.read(); //TODO eliminar "introduzca letra repetido al reiniciar juego"
-				game();
+				// comprobamos si hemos perdido o ganado
+				if (checkVictory()) {
+
+					drawHangMan(i);
+					writeWordState();
+					writeUsed();
+					i = 5;
+
+					System.out.println();
+					System.out.println("Enhorabuena, has ganado.");
+					System.out.println("Pulse Intro para intentarlo de nuevo.");
+					System.in.read(); 
+					game();
+				}
 			}
-
-			// comprobamos si hemos perdido o ganado
-			if (checkVictory()) {
-
-				drawHangMan(i);
-				writeWordState();
-				writeUsed();
-				i = 5;
-				
-				System.out.println();
-				System.out.println("Enhorabuena, has ganado.");
-			}
-
 		}
 		game();
 

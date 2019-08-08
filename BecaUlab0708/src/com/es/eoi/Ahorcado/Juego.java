@@ -84,14 +84,14 @@ public class Juego {
 					}
 
 				} else {
-					
+
 					drawHangMan(i);
 					writeWordState();
 					writeUsed();
-					
+
 					System.out.println();
 					System.out.println("Pulse Intro para intentarlo de nuevo.");
-					System.in.read(); 
+					System.in.read();
 					game();
 				}
 
@@ -106,7 +106,7 @@ public class Juego {
 					System.out.println();
 					System.out.println("Enhorabuena, has ganado.");
 					System.out.println("Pulse Intro para intentarlo de nuevo.");
-					System.in.read(); 
+					System.in.read();
 					game();
 				}
 			}
@@ -118,37 +118,50 @@ public class Juego {
 	public static void drawHangMan(int state) throws IOException {
 
 		FileReader fr = null;
+		String statePath;
 
 		switch (state) {
 
 		case 0:
-			fr = new FileReader(
-					"C:\\Users\\Cauntu\\Desktop\\Repo\\alumnos\\BecaUlab0708\\resources\\ascii\\hangman0.txt");
+
+			statePath = new File("resources/ascii/hangman0.txt").getAbsolutePath();
+			fr = new FileReader(statePath);
+
 			break;
 
 		case 1:
-			fr = new FileReader(
-					"C:\\Users\\Cauntu\\Desktop\\Repo\\alumnos\\BecaUlab0708\\resources\\ascii\\hangman1.txt");
+			
+			statePath = new File("resources/ascii/hangman1.txt").getAbsolutePath();
+			fr = new FileReader(statePath);
+			
 			break;
 
 		case 2:
-			fr = new FileReader(
-					"C:\\Users\\Cauntu\\Desktop\\Repo\\alumnos\\BecaUlab0708\\resources\\ascii\\hangman2.txt");
+			
+			statePath = new File("resources/ascii/hangman2.txt").getAbsolutePath();
+			fr = new FileReader(statePath);
+			
 			break;
 
 		case 3:
-			fr = new FileReader(
-					"C:\\Users\\Cauntu\\Desktop\\Repo\\alumnos\\BecaUlab0708\\resources\\ascii\\hangman3.txt");
+			
+			statePath = new File("resources/ascii/hangman3.txt").getAbsolutePath();
+			fr = new FileReader(statePath);
+			
 			break;
 
 		case 4:
-			fr = new FileReader(
-					"C:\\Users\\Cauntu\\Desktop\\Repo\\alumnos\\BecaUlab0708\\resources\\ascii\\hangman4.txt");
+			
+			statePath = new File("resources/ascii/hangman4.txt").getAbsolutePath();
+			fr = new FileReader(statePath);
+			
 			break;
 
 		case 5:
-			fr = new FileReader(
-					"C:\\Users\\Cauntu\\Desktop\\Repo\\alumnos\\BecaUlab0708\\resources\\ascii\\hangman_full.txt");
+			
+			statePath = new File("resources/ascii/hangman_full.txt").getAbsolutePath();
+			fr = new FileReader(statePath);
+			
 			break;
 
 		default:

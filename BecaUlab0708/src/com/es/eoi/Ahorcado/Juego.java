@@ -47,7 +47,7 @@ public class Juego {
 		usedC = new ArrayList<Character>();
 
 		// leemos todas las palabras del diccionario
-		File f = new File("C:\\Users\\Cauntu\\Desktop\\Repo\\alumnos\\BecaUlab0708\\resources\\words.txt");
+		File f = new File("resources/words.txt");
 		List<String> words = Files.readAllLines(f.toPath());
 
 		// elegimos un numero al azar

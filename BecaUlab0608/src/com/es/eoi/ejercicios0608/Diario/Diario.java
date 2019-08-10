@@ -57,6 +57,7 @@ public class Diario {
 				while ((line = br2.readLine()) != null) {
 					System.out.println(line);
 				}
+				br2.close();
 
 			} catch (FileNotFoundException e) {
 				System.out.println("El archivo no existe");
@@ -64,6 +65,7 @@ public class Diario {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
+				
 				menu();
 			}
 			break;

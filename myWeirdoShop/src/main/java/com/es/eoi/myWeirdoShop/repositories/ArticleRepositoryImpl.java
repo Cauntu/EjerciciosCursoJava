@@ -23,11 +23,48 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	private List<Article> dump;
 
 	public boolean create(Article newArticle) {
-
+		
+		Integer lastBarCode;
+		String barCode;
+		
 		if (newArticle != null) {
 
 			if (readJSON()) {
+				
+				if(dataBase.size() >= 1) {
+					
+					lastBarCode = Integer.parseInt(dataBase.get(dataBase.size() -1).getBarCode() );
+				} else {
+					lastBarCode = Integer.parseInt("0000");
+				}
+				
+				lastBarCode++;
+				
+				switch (lastBarCode.toString().length()) {
+				
+				case 1:
+					barCode = "000".concat(lastBarCode.toString());
+					break;
+					
+				case 2:
+					barCode = "00".concat(lastBarCode.toString());
+					break;
+					
+				case 3:
+					barCode = "0".concat(lastBarCode.toString());
+					break;
+					
+				case 4:
+					barCode = lastBarCode.toString();
+					break;
 
+				default:
+					System.out.println("Error BarCode");
+					return false;
+				}
+				
+				newArticle.setBarCode(barCode);
+				
 				this.dataBase.add(newArticle);
 				// this.dataBase.sort(null);
 

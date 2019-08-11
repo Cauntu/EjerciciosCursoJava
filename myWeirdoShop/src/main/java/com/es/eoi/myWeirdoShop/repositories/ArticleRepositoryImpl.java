@@ -1,6 +1,7 @@
 package com.es.eoi.myWeirdoShop.repositories;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,15 +19,21 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 	private static final String DB_PATH = "src/main/resources/articleDB.json";
 
-	private List<Article> dataBase;
-
+	private List<Article> dataBase = new ArrayList<Article>();
+	private List<Article> dump = new ArrayList<Article>();
+	
 	public boolean create(Article newArticle) {
 
 		if (newArticle != null) {
 
 			if (readJSON()) {
-
+				
+				for(Article a : dump) {
+					this.dataBase.add(a);
+				}
+				
 				this.dataBase.add(newArticle);
+				//this.dataBase.sort(null);
 
 				if (writeJSON()) {
 					return true;
@@ -97,12 +104,15 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public boolean readJSON() {
 
 		try {
-			BufferedReader dBReader = new BufferedReader(new FileReader(DB_PATH));
+			File f = new File(DB_PATH);
+			BufferedReader dBReader = new BufferedReader(new FileReader(f.getAbsolutePath()));
 
 			Gson gson = new Gson();
 			Article[] articlesFromDB = gson.fromJson(dBReader, Article[].class);
 
-			this.dataBase = Arrays.asList(articlesFromDB);
+			if(articlesFromDB != null) {
+				this.dump = Arrays.asList(articlesFromDB);
+			}
 
 			return true;
 
@@ -114,10 +124,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public boolean writeJSON() {
 
 		try {
-			FileWriter fw = new FileWriter(DB_PATH);
+			File f = new File(DB_PATH);
+			FileWriter fw = new FileWriter(f.getAbsolutePath());
 
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			Article[] articlesToDB = (Article[]) dataBase.toArray();
+			Article[] articlesToDB = dataBase.toArray(new Article[0]);
 			String json = gson.toJson(articlesToDB);
 			fw.write(json);
 			fw.close();

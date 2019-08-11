@@ -17,32 +17,27 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public boolean create(Article newArticle) {
-		this.repo.create(newArticle);
-		return false;
+		return this.repo.create(newArticle);
 	}
 
 	@Override
 	public boolean update(Article newArticle) {
-		this.repo.update(newArticle);
-		return false;
+		return this.repo.update(newArticle);
 	}
 
 	@Override
 	public Article read(String barCode) {
-		this.repo.read(barCode);
-		return null;
+		return this.repo.read(barCode);
 	}
 
 	@Override
 	public List<Article> readAll(Category cat) {
-		this.readAll(cat);
-		return null;
+		return this.readAll(cat);
 	}
 
 	@Override
 	public boolean delete(Article filter) {
-		this.repo.delete(filter);
-		return false;
+		return this.repo.delete(filter);
 	}
 
 }

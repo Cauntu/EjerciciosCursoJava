@@ -74,7 +74,7 @@ public class myWeirdoShop {
 		System.out.println("GROCERIES MECH MATERIALS LUXURY");
 		userInput = br.readLine();
 
-		if (userInput != null && userInput.length() < 3) {
+		if (userInput != null && userInput.length() >= 3) {
 
 			if ("GROCERIES".contains(userInput.toUpperCase())) {
 				npCat = Category.GROCERIES;
@@ -137,7 +137,7 @@ public class myWeirdoShop {
 		if(myArticleService.create(new Article(npName, npDesc, npPrice, npCat, npStock) ) ) {
 			mainMenu(false);
 		} else {
-			newProductMenu(false);
+			newProductMenu(true);
 		}
 
 	}

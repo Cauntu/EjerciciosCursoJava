@@ -36,8 +36,8 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public boolean delete(Article filter) {
-		return this.repo.delete(filter);
+	public boolean delete(String barCode) {
+		return this.repo.delete(barCode);
 	}
 
 }

@@ -20,20 +20,16 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	private static final String DB_PATH = "src/main/resources/articleDB.json";
 
 	private List<Article> dataBase = new ArrayList<Article>();
-	private List<Article> dump = new ArrayList<Article>();
-	
+	private List<Article> dump;
+
 	public boolean create(Article newArticle) {
 
 		if (newArticle != null) {
 
 			if (readJSON()) {
-				
-				for(Article a : dump) {
-					this.dataBase.add(a);
-				}
-				
+
 				this.dataBase.add(newArticle);
-				//this.dataBase.sort(null);
+				// this.dataBase.sort(null);
 
 				if (writeJSON()) {
 					return true;
@@ -50,11 +46,19 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 		if (newArticle != null) {
 
-			for (Article a : dataBase) {
+			if (readJSON()) {
 
-				if (newArticle.getBarCode().equals(a.getBarCode())) {
+				for (Article a : dataBase) {
 
+					if (newArticle.getBarCode().equals(a.getBarCode())) {
+						dataBase.set(dataBase.indexOf(a), newArticle);
+					}
 				}
+
+				if (writeJSON()) {
+					return true;
+				}
+
 			}
 
 		}
@@ -66,12 +70,32 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 		if (barCode != null) {
 
-			for (Article a : dataBase) {
-				if (barCode.equals(a.getBarCode())) {
-					return a;
+			if (readJSON()) {
+
+				for (Article a : dataBase) {
+					if (barCode.equals(a.getBarCode())) {
+						return a;
+					}
 				}
+
 			}
 
+		}
+
+		return null;
+	}
+
+	public List<Article> readAll() {
+
+		List<Article> selectedArticles = new ArrayList<Article>();
+
+		if (readJSON()) {
+
+			for (Article a : dataBase) {
+
+				selectedArticles.add(a);
+
+			}
 		}
 
 		return null;
@@ -83,12 +107,14 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 		if (cat != null) {
 
-			for (Article a : dataBase) {
-				// TODO
-				if (cat.equals(a.getCat())) {
-					selectedArticles.add(a);
-				}
+			if (readJSON()) {
 
+				for (Article a : dataBase) {
+					if (cat.equals(a.getCat())) {
+						selectedArticles.add(a);
+					}
+
+				}
 			}
 
 		}
@@ -96,12 +122,33 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 		return null;
 	}
 
-	public boolean delete(Article filter) {
-		// TODO Auto-generated method stub
+	public boolean delete(String barCode) {
+
+		if (barCode != null) {
+
+			if (readJSON()) {
+
+				for (Article a : dataBase) {
+					if (barCode.equals(a.getBarCode())) {
+						dataBase.remove(a);
+					}
+				}
+				
+				if(writeJSON()) {
+					return true;
+				}
+				
+
+			}
+
+		}
+		
 		return false;
 	}
 
 	public boolean readJSON() {
+
+		dump = new ArrayList<Article>();
 
 		try {
 			File f = new File(DB_PATH);
@@ -110,13 +157,17 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 			Gson gson = new Gson();
 			Article[] articlesFromDB = gson.fromJson(dBReader, Article[].class);
 
-			if(articlesFromDB != null) {
+			if (articlesFromDB != null) {
 				this.dump = Arrays.asList(articlesFromDB);
+
+				for (Article a : dump) {
+					this.dataBase.add(a);
+				}
 			}
 
 			return true;
 
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -135,7 +186,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 			return true;
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return false;
 		}
 

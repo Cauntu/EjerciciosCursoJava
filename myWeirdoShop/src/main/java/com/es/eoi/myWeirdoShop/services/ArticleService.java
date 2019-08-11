@@ -15,6 +15,6 @@ public interface ArticleService {
 
 	public List<Article> readAll(Category cat);
 
-	public boolean delete(Article filter);
+	public boolean delete(String barCode);
 	
 }

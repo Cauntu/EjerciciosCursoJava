@@ -135,6 +135,9 @@ public class myWeirdoShop {
 
 		
 		if(myArticleService.create(new Article(npName, npDesc, npPrice, npCat, npStock) ) ) {
+			System.out.println();
+			System.out.println("Articulo creado con éxito.");
+			System.out.println();
 			mainMenu(false);
 		} else {
 			newProductMenu(true);

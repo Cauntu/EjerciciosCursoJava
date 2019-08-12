@@ -15,13 +15,19 @@ public class myWeirdoShop {
 
 	static ArticleService myArticleService;
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) {
 
 		myArticleService = new ArticleServiceImpl();
-		mainMenu(false);
+		try {
+			mainMenu(false);
+		} catch (IOException e) {
+			System.out.println("Ha ocurrido un error critico en la aplicacion.");
+			System.out.println("Intente ejecutar la aplicacion con permisos de administrador.");
+		}
+
 	}
 
-	public static void mainMenu(boolean retry) throws NumberFormatException, IOException {
+	public static void mainMenu(boolean retry) throws IOException {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int userInput = 0;
@@ -42,7 +48,12 @@ public class myWeirdoShop {
 		System.out.println("6 - Vender Producto");
 		System.out.println("7 - Super Informe Ejecutivo");
 
-		userInput = Integer.parseInt(br.readLine());
+		try {
+			userInput = Integer.parseInt(br.readLine());
+
+		} catch (NumberFormatException e) {
+			mainMenu(true);
+		}
 
 		switch (userInput) {
 		case 1:
@@ -80,6 +91,7 @@ public class myWeirdoShop {
 			break;
 
 		}
+
 	}
 
 	public static void newProductMenu(boolean retry) throws IOException {
@@ -126,10 +138,10 @@ public class myWeirdoShop {
 			newProductMenu(true);
 		}
 		newProductMenu(true);
-		
+
 	}
 
-	public static void listProductMenu(boolean retry) throws NumberFormatException, IOException {
+	public static void listProductMenu(boolean retry) throws IOException {
 
 		List<Article> articles = new ArrayList<Article>();
 
@@ -358,7 +370,7 @@ public class myWeirdoShop {
 
 	}
 
-	public static void executiveReportMenu(boolean retry) throws NumberFormatException, IOException {
+	public static void executiveReportMenu(boolean retry) throws IOException {
 
 		List<Article> articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
@@ -531,17 +543,19 @@ public class myWeirdoShop {
 		}
 
 		if (cat != null) {
-			
+
 			System.out.println();
 			System.out.println(text);
-			
+
 			if (articles != null && articles.size() > 0) {
 
 				for (Article a : articles) {
 					System.out.print(a.getBarCode());
 					System.out.print(" - ");
 					System.out.print(a.getName().toUpperCase());
-					for (int i = 0; i < ((15 - a.getName().length()) + 5); i++) { System.out.print(".");}//espacio largo + espacio corto
+					for (int i = 0; i < ((15 - a.getName().length()) + 5); i++) {
+						System.out.print(".");
+					} // espacio largo + espacio corto
 					System.out.print("Total sin IVA: ");
 					billed = a.getnSold() * a.getPrice();
 					System.out.print(billed.toString().concat("€"));
@@ -553,7 +567,9 @@ public class myWeirdoShop {
 				}
 				total += billed;
 				System.out.print("TOTAL");
-				for (int i = 0; i < (2 + 15 + 5); i++) { System.out.print(".");}// formato + espacio largo + espacio corto
+				for (int i = 0; i < (2 + 15 + 5); i++) {
+					System.out.print(".");
+				} // formato + espacio largo + espacio corto
 				System.out.print("Total sin IVA: ");
 				System.out.print(total.toString().concat("€"));
 				System.out.print(" / ");

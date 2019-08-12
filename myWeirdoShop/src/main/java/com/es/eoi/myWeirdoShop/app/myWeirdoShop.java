@@ -14,12 +14,16 @@ import com.es.eoi.myWeirdoShop.services.ArticleServiceImpl;
 public class myWeirdoShop {
 
 	static ArticleService myArticleService;
+	static List<Article> articles;
 
 	public static void main(String[] args) {
 
 		myArticleService = new ArticleServiceImpl();
+		articles = new ArrayList<Article>();
+		
 		try {
 			mainMenu(false);
+			
 		} catch (IOException e) {
 			System.out.println("Ha ocurrido un error critico en la aplicacion.");
 			System.out.println("Intente ejecutar la aplicacion con permisos de administrador.");
@@ -143,7 +147,7 @@ public class myWeirdoShop {
 
 	public static void listProductMenu(boolean retry) throws IOException {
 
-		List<Article> articles = new ArrayList<Article>();
+		articles = new ArrayList<Article>();
 
 		System.out.println("Listando productos...");
 		System.out.println();
@@ -169,7 +173,7 @@ public class myWeirdoShop {
 
 	public static void searchProductMenu(boolean retry) throws IOException {
 
-		List<Article> articles = new ArrayList<Article>();
+		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
 		String barCode;
 
@@ -199,7 +203,7 @@ public class myWeirdoShop {
 
 	public static void editProductMenu(boolean retry) throws IOException {
 
-		List<Article> articles = new ArrayList<Article>();
+		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
 
 		String barCode;
@@ -304,7 +308,7 @@ public class myWeirdoShop {
 
 	public static void deleteProductMenu(boolean retry) throws IOException {
 
-		List<Article> articles = new ArrayList<Article>();
+		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -336,7 +340,7 @@ public class myWeirdoShop {
 
 	public static void sellProductMenu(boolean retry) throws IOException {
 
-		List<Article> articles = new ArrayList<Article>();
+		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -372,7 +376,7 @@ public class myWeirdoShop {
 
 	public static void executiveReportMenu(boolean retry) throws IOException {
 
-		List<Article> articles = new ArrayList<Article>();
+		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
 
 		System.out.println("Generando informe...");
@@ -507,8 +511,8 @@ public class myWeirdoShop {
 	}
 
 	public static void report(Category cat) {
-
-		List<Article> articles = new ArrayList<Article>();
+		
+		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll(cat);
 
 		Float billed = Float.parseFloat("0");

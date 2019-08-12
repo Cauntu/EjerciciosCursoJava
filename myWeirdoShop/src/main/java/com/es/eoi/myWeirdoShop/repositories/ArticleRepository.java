@@ -12,7 +12,9 @@ public interface ArticleRepository {
 	public boolean update(Article newArticle);
 
 	public Article read(String barCode);
-
+	
+	public List<Article> readAll();
+	
 	public List<Article> readAll(Category cat);
 
 	public boolean delete(String barCode);

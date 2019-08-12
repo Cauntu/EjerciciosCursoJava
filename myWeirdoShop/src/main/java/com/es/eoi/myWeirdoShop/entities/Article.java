@@ -9,7 +9,7 @@ public class Article {
 	}
 
 	public enum Category {
-		GROCERIES, MATERIALS, MECH, LUXURY;
+		GROCERIES, MATERIALS, MECH, LUXURY, NONE;
 	}
 
 	// FIELDS
@@ -18,9 +18,9 @@ public class Article {
 	private String name;
 	private String description;
 	private Tax IVA;
-	private float price;
-	private int stock;
-	private int nSold;
+	private Float price;
+	private Integer stock;
+	private Integer nSold;
 	private Category cat;
 
 	// {GET, SET}
@@ -105,19 +105,19 @@ public class Article {
 		case GROCERIES:
 			this.IVA = Tax.REDUCED;
 			break;
-			
+
 		case MECH:
 			this.IVA = Tax.NORMAL;
 			break;
-			
+
 		case MATERIALS:
 			this.IVA = Tax.SPECIAL;
 			break;
-			
+
 		case LUXURY:
 			this.IVA = Tax.NORMAL;
 			break;
-			
+
 		default:
 			this.IVA = Tax.NORMAL;
 			break;
@@ -125,4 +125,48 @@ public class Article {
 
 	}
 
+	public Article(String barCode, String name, String description, float price, Category cat, int stock) {
+		super();
+		this.barCode = barCode;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.cat = cat;
+		this.stock = stock;
+		this.nSold = 0;
+
+		switch (cat) {
+
+		case GROCERIES:
+			this.IVA = Tax.REDUCED;
+			break;
+
+		case MECH:
+			this.IVA = Tax.NORMAL;
+			break;
+
+		case MATERIALS:
+			this.IVA = Tax.SPECIAL;
+			break;
+
+		case LUXURY:
+			this.IVA = Tax.NORMAL;
+			break;
+
+		default:
+			this.IVA = Tax.NORMAL;
+			break;
+		}
+
+	}
+
+	// METHODS
+
+	@Override
+	public String toString() {
+		// TODO
+		return barCode.concat(" ").concat(name).concat("\n").concat(description).concat("\n").concat(cat.toString()).concat("\n").concat("IVA: ")
+				.concat(IVA.toString()).concat("\n").concat("PVP: ").concat(price.toString()).concat("€").concat("\n").concat("Disp: ")
+				.concat(stock.toString()).concat(" Vendido: ").concat(nSold.toString());
+	}
 }

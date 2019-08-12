@@ -2,10 +2,8 @@ package com.es.eoi.myWeirdoShop.repositories;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,37 +21,37 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	private List<Article> dump;
 
 	public boolean create(Article newArticle) {
-		
+
 		Integer lastBarCode;
 		String barCode;
-		
+
 		if (newArticle != null) {
 
 			if (readJSON()) {
-				
-				if(dataBase.size() >= 1) {
-					
-					lastBarCode = Integer.parseInt(dataBase.get(dataBase.size() -1).getBarCode() );
+
+				if (dataBase.size() >= 1) {
+
+					lastBarCode = Integer.parseInt(dataBase.get(dataBase.size() - 1).getBarCode());
 				} else {
 					lastBarCode = Integer.parseInt("0000");
 				}
-				
+
 				lastBarCode++;
-				
+
 				switch (lastBarCode.toString().length()) {
-				
+
 				case 1:
 					barCode = "000".concat(lastBarCode.toString());
 					break;
-					
+
 				case 2:
 					barCode = "00".concat(lastBarCode.toString());
 					break;
-					
+
 				case 3:
 					barCode = "0".concat(lastBarCode.toString());
 					break;
-					
+
 				case 4:
 					barCode = lastBarCode.toString();
 					break;
@@ -62,9 +60,9 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 					System.out.println("Error BarCode");
 					return false;
 				}
-				
+
 				newArticle.setBarCode(barCode);
-				
+
 				this.dataBase.add(newArticle);
 				// this.dataBase.sort(null);
 
@@ -133,6 +131,8 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 				selectedArticles.add(a);
 
 			}
+
+			return selectedArticles;
 		}
 
 		return null;
@@ -152,6 +152,8 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 					}
 
 				}
+				return selectedArticles;
+				
 			}
 
 		}
@@ -165,21 +167,21 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 			if (readJSON()) {
 
-				for (Article a : dataBase) {
-					if (barCode.equals(a.getBarCode())) {
-						dataBase.remove(a);
+				for (int i = 0; i < dataBase.size(); i++) {
+
+					if (barCode.equals(dataBase.get(i).getBarCode())) {
+						dataBase.remove(i);
 					}
 				}
-				
-				if(writeJSON()) {
+
+				if (writeJSON()) {
 					return true;
 				}
-				
 
 			}
 
 		}
-		
+
 		return false;
 	}
 
@@ -196,6 +198,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 			if (articlesFromDB != null) {
 				this.dump = Arrays.asList(articlesFromDB);
+				this.dataBase.clear();
 
 				for (Article a : dump) {
 					this.dataBase.add(a);

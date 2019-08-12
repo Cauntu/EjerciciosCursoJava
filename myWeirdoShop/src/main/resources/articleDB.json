@@ -5,8 +5,8 @@
     "description": "b",
     "IVA": "REDUCED",
     "price": 2.0,
-    "stock": 20,
-    "nSold": 0,
+    "stock": 17,
+    "nSold": 3,
     "cat": "GROCERIES"
   },
   {
@@ -14,7 +14,7 @@
     "name": "le",
     "description": "lo",
     "IVA": "NORMAL",
-    "price": 2.0,
+    "price": 10.0,
     "stock": 10,
     "nSold": 0,
     "cat": "LUXURY"

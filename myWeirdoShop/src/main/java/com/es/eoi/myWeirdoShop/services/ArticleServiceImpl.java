@@ -29,10 +29,16 @@ public class ArticleServiceImpl implements ArticleService {
 	public Article read(String barCode) {
 		return this.repo.read(barCode);
 	}
-
+	
+	@Override
+	public List<Article> readAll() {
+		return this.repo.readAll();
+	}
+	
+	
 	@Override
 	public List<Article> readAll(Category cat) {
-		return this.readAll(cat);
+		return this.repo.readAll(cat);
 	}
 
 	@Override

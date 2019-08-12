@@ -3,18 +3,22 @@ package com.es.eoi.myWeirdoShop.app;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.es.eoi.myWeirdoShop.entities.Article;
 import com.es.eoi.myWeirdoShop.entities.Article.Category;
 import com.es.eoi.myWeirdoShop.services.ArticleService;
 import com.es.eoi.myWeirdoShop.services.ArticleServiceImpl;
 
+import jdk.javadoc.internal.doclets.toolkit.taglets.UserTaglet;
+
 public class myWeirdoShop {
-		
+
 	static ArticleService myArticleService;
-		
+
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		
+
 		myArticleService = new ArticleServiceImpl();
 		mainMenu(false);
 	}
@@ -24,6 +28,7 @@ public class myWeirdoShop {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int userInput = 0;
 
+		System.out.println();
 		if (!retry) {
 			System.out.println("Bienvenido a PRODUCTATOR V.1.0");
 		} else {
@@ -46,6 +51,32 @@ public class myWeirdoShop {
 			newProductMenu(false);
 			break;
 
+		case 2:
+			listProductMenu(false);
+			break;
+
+		case 3:
+			searchProductMenu(false);
+			;
+			break;
+
+		case 4:
+			editProductMenu(false);
+			;
+			break;
+
+		case 5:
+			deleteProductMenu(false);
+			break;
+
+		case 6:
+			sellProductMenu(false);
+			break;
+
+		case 7:
+			executiveReportMenu(false);
+			break;
+
 		default:
 			mainMenu(true);
 			break;
@@ -57,18 +88,307 @@ public class myWeirdoShop {
 
 		String npName = null;
 		String npDesc = null;
-		float npPrice = Float.parseFloat("0.00");
-		int npStock = 0;
+		Float npPrice = Float.parseFloat("0.00");
+		Integer npStock = 0;
 		Category npCat = null;
-
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String userInput;
 
 		System.out.println();
 
 		if (retry) {
 			System.out.println("Hubo un error");
 		}
+
+		if ((npCat = askCat()) != Category.NONE) {
+
+			if ((npName = askName()) != null) {
+
+				if ((npDesc = askDesc()) != null) {
+
+					if ((npPrice = askPrice()) != null) {
+
+						if ((npStock = askStock()) != null) {
+
+							if (myArticleService.create(new Article(npName, npDesc, npPrice, npCat, npStock))) {
+								System.out.println();
+								System.out.println("Articulo creado con éxito.");
+								System.out.println();
+								mainMenu(false);
+							} else {
+								newProductMenu(true);
+							}
+
+						}
+
+					}
+
+				}
+			}
+
+		} else {
+			newProductMenu(true);
+		}
+
+	}
+
+	public static void listProductMenu(boolean retry) throws NumberFormatException, IOException {
+
+		List<Article> articles = new ArrayList<Article>();
+
+		System.out.println("Listando productos...");
+		System.out.println();
+		articles = myArticleService.readAll();
+
+		if (articles != null) {
+
+			for (Article a : articles) {
+				System.out.println("-----");
+				System.out.println(a.toString());
+				System.out.println();
+
+			}
+
+			mainMenu(false);
+
+		} else {
+			System.out.println("No hay articulos.");
+			mainMenu(false);
+		}
+
+	}
+
+	public static void searchProductMenu(boolean retry) throws IOException {
+
+		List<Article> articles = new ArrayList<Article>();
+		articles = myArticleService.readAll();
+		String barCode;
+
+		if ((barCode = askBarCode()) != null) {
+
+			if (articles != null) {
+
+				for (Article a : articles) {
+
+					if (barCode.equals(a.getBarCode())) {
+						System.out.println(a.toString());
+						mainMenu(false);
+					}
+
+				}
+
+			} else {
+				System.out.println("No hay productos");
+				mainMenu(false);
+			}
+
+		} else {
+			searchProductMenu(true);
+		}
+
+	}
+
+	public static void editProductMenu(boolean retry) throws IOException {
+
+		List<Article> articles = new ArrayList<Article>();
+		articles = myArticleService.readAll();
+
+		String barCode;
+		String epName = null;
+		String epDesc = null;
+		Float epPrice = Float.parseFloat("0.00");
+		Integer epStock = 0;
+		Category epCat = null;
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
+
+		if (retry) {
+			System.out.println("Hubo un error");
+		}
+
+		if ((barCode = askBarCode()) != null) {
+
+			if (articles != null) {
+
+				for (Article a : articles) {
+
+					if (barCode.equals(a.getBarCode())) {
+
+						System.out.println("Campos: Nombre(N), Descripcion(D), Precio(P), Categoria(C), Stock(S)");
+						System.out.println("Introduzca el campo que desea editar");
+						userInput = br.readLine();
+
+						switch (userInput.toUpperCase()) {
+						case "N":
+							if ((epName = askName()) != null) {
+
+								if (myArticleService.update(new Article(a.getBarCode(), epName, a.getDescription(),
+										a.getPrice(), a.getCat(), a.getnAvailable()))) {
+									System.out.println("Exito");
+									mainMenu(false);
+								}
+							}
+							break;
+
+						case "D":
+							if ((epDesc = askDesc()) != null) {
+
+								if (myArticleService.update(new Article(a.getBarCode(), a.getName(), epDesc,
+										a.getPrice(), a.getCat(), a.getnAvailable()))) {
+									System.out.println("Exito");
+									mainMenu(false);
+								}
+							}
+							break;
+
+						case "P":
+							if ((epPrice = askPrice()) != null) {
+
+								if (myArticleService.update(new Article(a.getBarCode(), a.getName(), a.getDescription(),
+										epPrice, a.getCat(), a.getnAvailable()))) {
+									System.out.println("Exito");
+									mainMenu(false);
+								}
+							}
+							break;
+
+						case "C":
+							if ((epCat = askCat()) != null) {
+
+								if (myArticleService.update(new Article(a.getBarCode(), a.getName(), a.getDescription(),
+										a.getPrice(), epCat, a.getnAvailable()))) {
+									System.out.println("Exito");
+									mainMenu(false);
+								}
+							}
+							break;
+
+						case "S":
+							if ((epStock = askStock()) != null) {
+
+								if (myArticleService.update(new Article(a.getBarCode(), a.getName(), a.getDescription(),
+										a.getPrice(), a.getCat(), epStock))) {
+									System.out.println("Exito");
+									mainMenu(false);
+								}
+							}
+							break;
+
+						default:
+							editProductMenu(true);
+							break;
+						}
+
+					}
+				}
+			} else {
+				System.out.println("No hay articulos");
+				mainMenu(false);
+			}
+
+		} else {
+			editProductMenu(true);
+		}
+
+	}
+
+	public static void deleteProductMenu(boolean retry) throws IOException {
+
+		List<Article> articles = new ArrayList<Article>();
+		articles = myArticleService.readAll();
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
+
+		System.out.println("Introduzca el codigo de barras del producto que desea borrar (4 digitos)");
+		userInput = br.readLine();
+
+		if (userInput != null && userInput.length() == 4) {
+			for (Article a : articles) {
+
+				if (userInput.equals(a.getBarCode())) {
+
+					if (myArticleService.delete(userInput)) {
+						System.out.println("Articulo borrado con exito");
+						mainMenu(false);
+					} else {
+						System.out.println("Error al borrar");
+					}
+
+				}
+
+			}
+			System.out.println("No se ha encontrado ningun articulo con ese codigo de barras");
+			deleteProductMenu(true);
+		}
+
+	}
+
+	public static void sellProductMenu(boolean retry) throws IOException {
+
+		List<Article> articles = new ArrayList<Article>();
+		articles = myArticleService.readAll();
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
+
+		System.out.println("Introduzca el codigo de barras del producto (4 digitos)");
+		userInput = br.readLine();
+
+		if (articles != null) {
+
+			for (Article a : articles) {
+
+				if (userInput.equals(a.getBarCode())) {
+
+					System.out.println("Introduzca el numero de articulos");
+					userInput = br.readLine();
+
+					if (a.getnAvailable() > Integer.parseInt(userInput)) {
+						a.setnAvailable(a.getnAvailable() - Integer.parseInt(userInput));
+						a.setnSold(a.getnSold() + Integer.parseInt(userInput));
+
+					}
+
+					if (myArticleService.update(a)) {
+						System.out.println("Exito");
+						mainMenu(false);
+					}
+				}
+			}
+		}
+
+	}
+
+	public static void executiveReportMenu(boolean retry) throws NumberFormatException, IOException {
+
+		List<Article> articles = new ArrayList<Article>();
+		articles = myArticleService.readAll();
+		Float billed = Float.parseFloat("0");
+		Float total = Float.parseFloat("0");
+
+		System.out.println("Generando informe...");
+
+		if (articles != null) {
+
+			report(Category.GROCERIES);
+			report(Category.LUXURY);
+			report(Category.MATERIALS);
+			report(Category.MECH);
+			System.out.println();
+			System.out.println("FIN");
+			mainMenu(false);
+
+		} else {
+			System.out.println("No hay articulos");
+			mainMenu(false);
+		}
+
+	}
+
+	public static Category askCat() throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
 
 		System.out.println("Introduzca la categoria del producto (al menos 3 caracteres)");
 		System.out.println("GROCERIES MECH MATERIALS LUXURY");
@@ -77,96 +397,175 @@ public class myWeirdoShop {
 		if (userInput != null && userInput.length() >= 3) {
 
 			if ("GROCERIES".contains(userInput.toUpperCase())) {
-				npCat = Category.GROCERIES;
-				
+				return Category.GROCERIES;
+
 			} else if ("MECH".contains(userInput.toUpperCase())) {
-				npCat = Category.MECH;
-				
+				return Category.MECH;
+
 			} else if ("MATERIALS".contains(userInput.toUpperCase())) {
-				npCat = Category.MATERIALS;
-				
+				return Category.MATERIALS;
+
 			} else if ("LUXURY".contains(userInput.toUpperCase())) {
-				npCat = Category.LUXURY;
-				
-			} else {
-				newProductMenu(true);
+				return Category.LUXURY;
+
 			}
+			return Category.NONE;
 
 		} else {
-			newProductMenu(true);
+			return Category.NONE;
 		}
+
+	}
+
+	public static String askName() throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
 
 		System.out.println("Introduzca un nombre de producto (max 15 caracteres)");
 		userInput = br.readLine();
 
 		if (userInput != null && userInput.length() <= 15) {
-			npName = userInput;
+			return userInput;
+
 		} else {
-			newProductMenu(true);
+			return null;
 		}
+	}
+
+	public static String askDesc() throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
 
 		System.out.println("Introduzca una descripcion de producto (max 30 caracteres)");
 		userInput = br.readLine();
 
 		if (userInput != null && userInput.length() <= 30) {
-			npDesc = userInput;
+			return userInput;
+
 		} else {
-			newProductMenu(true);
+			return null;
 		}
+	}
+
+	public static Float askPrice() throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
 
 		System.out.print("Introduzca un precio para el producto: ");
 		userInput = br.readLine();
 
 		if (userInput != null && Float.parseFloat(userInput) >= 0.01) {
-			npPrice = Float.parseFloat(userInput);
-		} else {
-			newProductMenu(true);
-		}
+			return Float.parseFloat(userInput);
 
-		System.out.println();
+		} else {
+			return null;
+		}
+	}
+
+	public static Integer askStock() throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
+
 		System.out.print("Introduzca el stock disponible: ");
 		userInput = br.readLine();
 
 		if (userInput != null && Integer.parseInt(userInput) >= 0) {
-			npStock = Integer.parseInt(userInput);
+			return Integer.parseInt(userInput);
+
 		} else {
-			newProductMenu(true);
+			return null;
+		}
+	}
+
+	public static String askBarCode() throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String userInput;
+
+		System.out.println("Introduzca el codigo de barras del producto (4 digitos)");
+		userInput = br.readLine();
+
+		if (userInput != null && userInput.length() == 4) {
+			return userInput;
+
+		} else {
+			return null;
+		}
+	}
+
+	public static void report(Category cat) {
+
+		List<Article> articles = new ArrayList<Article>();
+		articles = myArticleService.readAll(cat);
+
+		Float billed = Float.parseFloat("0");
+		Float total = Float.parseFloat("0");
+		Float TAX = Float.parseFloat("0");
+		String text = "";
+
+		switch (cat) {
+
+		case GROCERIES:
+			text = "ALIMENTACION";
+			TAX = Float.parseFloat("0.04");
+			break;
+
+		case LUXURY:
+			text = "LUJO";
+			TAX = Float.parseFloat("0.21");
+			break;
+
+		case MATERIALS:
+			text = "MATERIALES";
+			TAX = Float.parseFloat("0.1");
+			break;
+
+		case MECH:
+			text = "MECANICA";
+			TAX = Float.parseFloat("0.21");
+			break;
+
+		default:
+			break;
 		}
 
-		
-		if(myArticleService.create(new Article(npName, npDesc, npPrice, npCat, npStock) ) ) {
+		if (cat != null) {
+			
 			System.out.println();
-			System.out.println("Articulo creado con éxito.");
-			System.out.println();
-			mainMenu(false);
-		} else {
-			newProductMenu(true);
+			System.out.println(text);
+			
+			if (articles != null && articles.size() > 0) {
+
+				for (Article a : articles) {
+					System.out.print(a.getBarCode());
+					System.out.print(" - ");
+					System.out.print(a.getName());
+					System.out.print(" ");// TODO calculate lengths and apply ....format
+					System.out.print("Total sin IVA: ");
+					billed = a.getnSold() * a.getPrice();
+					System.out.print(billed.toString().concat("€"));
+					System.out.print(" / ");
+					System.out.print("Total con IVA: ");
+					System.out.print((billed + (billed * TAX)));
+					System.out.println("€");
+
+				}
+				total += billed;
+				System.out.print("TOTAL: ");
+				System.out.print("Total sin iva: ");
+				System.out.print(total.toString().concat("€"));
+				System.out.print(" / ");
+				System.out.print("Total con iva:");
+				System.out.print(total + total * TAX);
+				System.out.println("€");
+
+			} else {
+				System.out.println("Sin ventas");
+			}
 		}
-
 	}
-
-	public static void listProductMenu(boolean retry) {
-
-	}
-
-	public static void searchProductMenu(boolean retry) {
-
-	}
-
-	public static void editProductMenu(boolean retry) {
-
-	}
-
-	public static void deleteProductMenu(boolean retry) {
-
-	}
-
-	public static void sellProductMenu(boolean retry) {
-
-	}
-
-	public static void executiveReportMenu(boolean retry) {
-
-	}
-
 }

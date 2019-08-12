@@ -11,8 +11,6 @@ import com.es.eoi.myWeirdoShop.entities.Article.Category;
 import com.es.eoi.myWeirdoShop.services.ArticleService;
 import com.es.eoi.myWeirdoShop.services.ArticleServiceImpl;
 
-import jdk.javadoc.internal.doclets.toolkit.taglets.UserTaglet;
-
 public class myWeirdoShop {
 
 	static ArticleService myArticleService;
@@ -363,8 +361,6 @@ public class myWeirdoShop {
 
 		List<Article> articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
-		Float billed = Float.parseFloat("0");
-		Float total = Float.parseFloat("0");
 
 		System.out.println("Generando informe...");
 
@@ -556,10 +552,10 @@ public class myWeirdoShop {
 				}
 				total += billed;
 				System.out.print("TOTAL: ");
-				System.out.print("Total sin iva: ");
+				System.out.print("Total sin IVA: ");
 				System.out.print(total.toString().concat("€"));
 				System.out.print(" / ");
-				System.out.print("Total con iva:");
+				System.out.print("Total con IVA: ");
 				System.out.print(total + total * TAX);
 				System.out.println("€");
 

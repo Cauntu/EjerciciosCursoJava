@@ -125,7 +125,8 @@ public class myWeirdoShop {
 		} else {
 			newProductMenu(true);
 		}
-
+		newProductMenu(true);
+		
 	}
 
 	public static void listProductMenu(boolean retry) throws NumberFormatException, IOException {
@@ -539,8 +540,8 @@ public class myWeirdoShop {
 				for (Article a : articles) {
 					System.out.print(a.getBarCode());
 					System.out.print(" - ");
-					System.out.print(a.getName());
-					System.out.print(" ");// TODO calculate lengths and apply ....format
+					System.out.print(a.getName().toUpperCase());
+					for (int i = 0; i < ((15 - a.getName().length()) + 5); i++) { System.out.print(".");}//espacio largo + espacio corto
 					System.out.print("Total sin IVA: ");
 					billed = a.getnSold() * a.getPrice();
 					System.out.print(billed.toString().concat("€"));
@@ -551,7 +552,8 @@ public class myWeirdoShop {
 
 				}
 				total += billed;
-				System.out.print("TOTAL: ");
+				System.out.print("TOTAL");
+				for (int i = 0; i < (2 + 15 + 5); i++) { System.out.print(".");}// formato + espacio largo + espacio corto
 				System.out.print("Total sin IVA: ");
 				System.out.print(total.toString().concat("€"));
 				System.out.print(" / ");
@@ -560,7 +562,7 @@ public class myWeirdoShop {
 				System.out.println("€");
 
 			} else {
-				System.out.println("Sin ventas");
+				System.out.println("No hay articulos");
 			}
 		}
 	}

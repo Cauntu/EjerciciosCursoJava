@@ -165,8 +165,12 @@ public class Article {
 	@Override
 	public String toString() {
 		// TODO
-		return barCode.concat(" ").concat(name).concat("\n").concat(description).concat("\n").concat(cat.toString()).concat("\n").concat("IVA: ")
-				.concat(IVA.toString()).concat("\n").concat("PVP: ").concat(price.toString()).concat("€").concat("\n").concat("Disp: ")
-				.concat(stock.toString()).concat(" Vendido: ").concat(nSold.toString());
+		return barCode.concat(" ").concat(name).toUpperCase()
+				.concat("\n").concat(description)
+				.concat("\n").concat("Cat.: ").concat(cat.toString())
+				.concat("\n").concat("IVA: ").concat(IVA.toString())
+				.concat("\n").concat("PVP: ").concat(price.toString()).concat("€")
+				.concat("\n").concat("Disp.: ").concat(stock.toString())
+				.concat(" Vendido: ").concat(nSold.toString());
 	}
 }

@@ -18,5 +18,25 @@
     "stock": 10,
     "nSold": 0,
     "cat": "LUXURY"
+  },
+  {
+    "barCode": "0003",
+    "name": "madera",
+    "description": "arce",
+    "IVA": "SPECIAL",
+    "price": 15.0,
+    "stock": 100,
+    "nSold": 0,
+    "cat": "MATERIALS"
+  },
+  {
+    "barCode": "0004",
+    "name": "Anillo Pandora",
+    "description": "Diamantes",
+    "IVA": "NORMAL",
+    "price": 300.0,
+    "stock": 2,
+    "nSold": 0,
+    "cat": "LUXURY"
   }
 ]

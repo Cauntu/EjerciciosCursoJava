@@ -20,10 +20,10 @@ public class myWeirdoShop {
 
 		myArticleService = new ArticleServiceImpl();
 		articles = new ArrayList<Article>();
-		
+
 		try {
 			mainMenu(false);
-			
+
 		} catch (IOException e) {
 			System.out.println("Ha ocurrido un error critico en la aplicacion.");
 			System.out.println("Intente ejecutar la aplicacion con permisos de administrador.");
@@ -311,18 +311,14 @@ public class myWeirdoShop {
 		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String userInput;
+		String barCode;
 
-		System.out.println("Introduzca el codigo de barras del producto que desea borrar (4 digitos)");
-		userInput = br.readLine();
+		if ((barCode = askBarCode()) != null) {
 
-		if (userInput != null && userInput.length() == 4) {
 			for (Article a : articles) {
+				if (barCode.equals(a.getBarCode())) {
 
-				if (userInput.equals(a.getBarCode())) {
-
-					if (myArticleService.delete(userInput)) {
+					if (myArticleService.delete(barCode)) {
 						System.out.println("Articulo borrado con exito");
 						mainMenu(false);
 					} else {
@@ -330,43 +326,46 @@ public class myWeirdoShop {
 					}
 
 				}
-
+				
 			}
 			System.out.println("No se ha encontrado ningun articulo con ese codigo de barras");
 			deleteProductMenu(true);
+			
+		} else {
+			deleteProductMenu(true);
 		}
-
 	}
 
 	public static void sellProductMenu(boolean retry) throws IOException {
 
 		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll();
-
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String userInput;
+		String barCode;
 
-		System.out.println("Introduzca el codigo de barras del producto (4 digitos)");
-		userInput = br.readLine();
+		if ((barCode = askBarCode()) != null) {
 
-		if (articles != null) {
+			if (articles != null) {
 
-			for (Article a : articles) {
+				for (Article a : articles) {
 
-				if (userInput.equals(a.getBarCode())) {
+					if (barCode.equals(a.getBarCode())) {
 
-					System.out.println("Introduzca el numero de articulos");
-					userInput = br.readLine();
+						System.out.println("Introduzca el numero de articulos");
+						userInput = br.readLine();
 
-					if (a.getnAvailable() > Integer.parseInt(userInput)) {
-						a.setnAvailable(a.getnAvailable() - Integer.parseInt(userInput));
-						a.setnSold(a.getnSold() + Integer.parseInt(userInput));
+						if (a.getnAvailable() > Integer.parseInt(userInput)) {
+							a.setnAvailable(a.getnAvailable() - Integer.parseInt(userInput));
+							a.setnSold(a.getnSold() + Integer.parseInt(userInput));
 
-					}
+						}
 
-					if (myArticleService.update(a)) {
-						System.out.println("Exito");
-						mainMenu(false);
+						if (myArticleService.update(a)) {
+							System.out.println("Exito");
+							mainMenu(false);
+						}
 					}
 				}
 			}
@@ -511,7 +510,7 @@ public class myWeirdoShop {
 	}
 
 	public static void report(Category cat) {
-		
+
 		articles = new ArrayList<Article>();
 		articles = myArticleService.readAll(cat);
 

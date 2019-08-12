@@ -38,15 +38,5 @@
     "stock": 2,
     "nSold": 0,
     "cat": "LUXURY"
-  },
-  {
-    "barCode": "0005",
-    "name": "lo",
-    "description": "la",
-    "IVA": "NORMAL",
-    "price": 2.0,
-    "stock": 1000,
-    "nSold": 0,
-    "cat": "LUXURY"
   }
 ]

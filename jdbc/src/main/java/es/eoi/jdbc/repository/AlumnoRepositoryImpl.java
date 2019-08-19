@@ -54,7 +54,8 @@ public class AlumnoRepositoryImpl implements AlumnoRepository {
 					al.setNombre(rs.getString("NOMBRE"));
 					al.setApellidos(rs.getString("APELLIDOS"));
 					al.setEdad(rs.getInt("EDAD"));
-
+					
+					conexion.close();
 					return al;
 				}
 
@@ -94,6 +95,7 @@ public class AlumnoRepositoryImpl implements AlumnoRepository {
 					alumnos.add(al);
 
 				}
+				conexion.close();
 				return alumnos;
 
 			} catch (SQLException e) {
@@ -125,6 +127,7 @@ public class AlumnoRepositoryImpl implements AlumnoRepository {
 				pst.setInt(4, nuevoAlumno.getEdad());
 
 				if (pst.executeUpdate() >= 1) {
+					conexion.close();
 					return true;
 				}
 
@@ -153,6 +156,7 @@ public class AlumnoRepositoryImpl implements AlumnoRepository {
 				pst.setString(1, dni);
 
 				if (pst.executeUpdate() >= 1) {
+					conexion.close();
 					return true;
 				}
 
@@ -184,6 +188,7 @@ public class AlumnoRepositoryImpl implements AlumnoRepository {
 				pst.setString(3, dni);
 
 				if (pst.executeUpdate() >= 1) {
+					conexion.close();
 					return true;
 				}
 

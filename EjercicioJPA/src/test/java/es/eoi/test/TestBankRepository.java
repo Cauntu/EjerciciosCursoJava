@@ -25,7 +25,7 @@ public class TestBankRepository {
 		b.setNombre("Banco1");
 		b.setIdBanco(123);
 		
-		
+		assertEquals(true, repo.create(b));
 	}
 
 	@Test

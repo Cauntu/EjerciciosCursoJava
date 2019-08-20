@@ -10,12 +10,19 @@ import javax.persistence.Query;
 import es.eoi.entities.Banco;
 
 public class BankRepositoryImpl implements MyRepository<Banco> {
+	
+	@SuppressWarnings("unused")
+	private EntityManagerFactory emf;
+	private EntityManager em;
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("EJERCICIOPU");
-	EntityManager em = emf.createEntityManager();
+	public BankRepositoryImpl() {
+
+		this.emf = Persistence.createEntityManagerFactory("EJERCICIOPU");
+		this.em = emf.createEntityManager();
+	}
 
 	public boolean create(Banco b) {
-
+		
 		try {
 
 			em.getTransaction().begin();
@@ -47,9 +54,9 @@ public class BankRepositoryImpl implements MyRepository<Banco> {
 	public Banco readByID(int id) {
 		@SuppressWarnings("unused")
 		Banco tbanco = null;
-		
+
 		try {
-			
+
 			return (tbanco = em.find(Banco.class, id));
 
 		} catch (Exception e) {
@@ -75,7 +82,7 @@ public class BankRepositoryImpl implements MyRepository<Banco> {
 	}
 
 	public boolean update(Banco b) {
-		
+
 		try {
 
 			em.getTransaction().begin();
@@ -92,11 +99,11 @@ public class BankRepositoryImpl implements MyRepository<Banco> {
 	}
 
 	public boolean delete(Banco b) {
-		
-		Banco bk = null ;
-		
+
+		Banco bk = null;
+
 		try {
-			
+
 			bk = em.find(Banco.class, b);
 			em.getTransaction().begin();
 			em.remove(bk);

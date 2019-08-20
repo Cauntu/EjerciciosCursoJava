@@ -11,8 +11,15 @@ import es.eoi.entities.Cliente;
 
 public class ClientRepositoryImpl implements MyRepository<Cliente> {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("EJERCICIOPU");
-	EntityManager em = emf.createEntityManager();
+	@SuppressWarnings("unused")
+	private EntityManagerFactory emf;
+	private EntityManager em;
+
+	public ClientRepositoryImpl() {
+
+		this.emf = Persistence.createEntityManagerFactory("EJERCICIOPU");
+		this.em = emf.createEntityManager();
+	}
 
 	public boolean create(Cliente c) {
 
@@ -47,9 +54,9 @@ public class ClientRepositoryImpl implements MyRepository<Cliente> {
 	public Cliente readByDNI(int dni) {
 		@SuppressWarnings("unused")
 		Cliente tcliente = null;
-		
+
 		try {
-			
+
 			return (tcliente = em.find(Cliente.class, dni));
 
 		} catch (Exception e) {
@@ -91,11 +98,11 @@ public class ClientRepositoryImpl implements MyRepository<Cliente> {
 	}
 
 	public boolean delete(Cliente c) {
-		
-		Cliente cl = null ;
-		
+
+		Cliente cl = null;
+
 		try {
-			
+
 			cl = em.find(Cliente.class, c);
 			em.getTransaction().begin();
 			em.remove(cl);

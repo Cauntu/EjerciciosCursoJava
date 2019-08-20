@@ -11,10 +11,15 @@ import es.eoi.entities.Cuenta;
 
 public class AccountRepositoryImpl implements MyRepository<Cuenta> {
 
-	
-	
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("EJERCICIOPU");
-	EntityManager em = emf.createEntityManager();
+	@SuppressWarnings("unused")
+	private EntityManagerFactory emf;
+	private EntityManager em;
+
+	public AccountRepositoryImpl() {
+
+		this.emf = Persistence.createEntityManagerFactory("EJERCICIOPU");
+		this.em = emf.createEntityManager();
+	}
 
 	public boolean create(Cuenta c) {
 
@@ -49,9 +54,9 @@ public class AccountRepositoryImpl implements MyRepository<Cuenta> {
 	public Cuenta readByID(int id) {
 		@SuppressWarnings("unused")
 		Cuenta tcuenta = null;
-		
+
 		try {
-			
+
 			return (tcuenta = em.find(Cuenta.class, id));
 
 		} catch (Exception e) {
@@ -93,11 +98,11 @@ public class AccountRepositoryImpl implements MyRepository<Cuenta> {
 	}
 
 	public boolean delete(Cuenta c) {
-		
-		Cuenta ct = null ;
-		
+
+		Cuenta ct = null;
+
 		try {
-			
+
 			ct = em.find(Cuenta.class, c);
 			em.getTransaction().begin();
 			em.remove(ct);
